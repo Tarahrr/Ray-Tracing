@@ -1,0 +1,46 @@
+// This is a test scene for Specter.  Try running "specter test.scn".
+
+xres 712
+yres 712
+filename "image.ppm"
+
+camera pinhole {
+  eye [ 8,0,0 ]
+  lookat [ 0,0,0]
+  up [ 0.0, 0.0, 1.0 ]
+  hfov 22.0
+}
+
+background constant {
+  color [ 0.5, 0.8, 0.9 ]
+}
+
+ambient [ 0.2, 0.2, 0.2 ]
+
+
+light point {
+  position [ -7,10,-10 ]
+  color [ 1,1,1 ]
+}
+
+scene group {
+sphere {
+  material lambertian {
+       color [ 1, 1, 0.0]
+       Ks 0.6
+       Ka 0.6
+    }
+    center [ 0, 0, 0 ]
+    radius 1
+  }
+
+  plane {
+    material lambertian {
+      color [ 0.5, 0.2, 0.3]
+      Ks 0
+      Ka 1
+    }
+    normal [ 0.0, 1.0, 0.0 ]
+    point [ 0.0, 0.0, -1 ]
+  }
+}
