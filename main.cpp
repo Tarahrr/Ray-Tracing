@@ -279,7 +279,11 @@ int main(int argc, char const *argv[])
 	t1 = clock();	
  
 	int dpi =72;
+<<<<<<< HEAD
 	int aadepth = 5;
+=======
+	int aadepth = 1;
+>>>>>>> master
 	double aathreshold = 0.1;
 	double width = 0, height = 0;
 
@@ -818,6 +822,7 @@ int main(int argc, char const *argv[])
 	double  aspectratio = (double)width/(double)height;
     int n = width*height;
     RGBType *pixels = new RGBType[n];
+    RGBType *pixelsTotal = new RGBType[n];
 	
     Vect diff_btw (campos.getVectX() - look_at.getVectX(), campos.getVectY() - look_at.getVectY() ,campos.getVectZ() - look_at.getVectZ());
 
@@ -831,6 +836,22 @@ int main(int argc, char const *argv[])
    double xamnt,yamnt;
    int thisone, aa_index;
    double tempRed,tempGreen,tempBlue;
+<<<<<<< HEAD
+=======
+   int start = 0, end = 3 ;
+   for(float z_temp = start ; z_temp < end ; z_temp++){	// Move Camera
+ 
+   	campos.setVectZ(campos.getVectZ() + z_temp);
+   	Vect diff_btw (campos.getVectX() - look_at.getVectX(), campos.getVectY() - look_at.getVectY() ,campos.getVectZ() - look_at.getVectZ());
+
+
+    Vect camdir = diff_btw.negative().normalize();
+    Vect camright= Y.crossProduct(camdir).normalize();
+    Vect camdown = camright.crossProduct(camdir).normalize();
+
+    Camera scene_cam (campos,camdir,camright,camdown);
+
+>>>>>>> master
 	for (int x = 0; x < width; x++){
 		for (int y = 0; y < height; y++){
 			thisone =y*width+x; 	// index value of pixels
@@ -864,7 +885,11 @@ int main(int argc, char const *argv[])
 						}
 					}
 					else{	//anti-aliasing
+<<<<<<< HEAD
 						if (width > height){		//non-anti-aliasing
+=======
+						if (width > height){
+>>>>>>> master
 							// the image is wider than it is tall 
 							xamnt = ((x+ (double)aax/(double)aadepth - 1)/width)*aspectratio - (((width-height)/(double)height)/2);
 							yamnt = ((height-y)+(double)aax/(double)aadepth - 1)/height;
@@ -880,9 +905,15 @@ int main(int argc, char const *argv[])
 						}
 					}
 
+<<<<<<< HEAD
 
 
 
+=======
+
+
+
+>>>>>>> master
 					Vect cam_ray_origin = scene_cam.getCameraPosition();
 				 	Vect cam_ray_direction = camdir.vectAdd(camright.vectMult(xamnt - 0.5).vectAdd(camdown.vectMult(yamnt - 0.5))).normalize();
 					Ray cam_ray (cam_ray_origin,cam_ray_direction);
@@ -946,10 +977,34 @@ int main(int argc, char const *argv[])
 			pixels[thisone].g = avgGreen;
 			pixels[thisone].b = avgBlue;
 			
+<<<<<<< HEAD
 
 		}
 	}
 	savebmp("scene.bmp",width,height,dpi,pixels); 
+=======
+	pixelsTotal[thisone].r += pixels[thisone].r;
+	pixelsTotal[thisone].g += pixels[thisone].g;
+	pixelsTotal[thisone].b += pixels[thisone].b;
+	
+		}
+	}
+	//cout << pixelsTotal[200].r<<endl;
+}
+	
+	for (int x = 0; x < width; x++){
+		for (int y = 0; y < height; y++){
+			thisone =y*width+x; 	// index value of pixels
+			pixelsTotal[thisone].r = pixelsTotal[thisone].r / (end-start) ;
+			pixelsTotal[thisone].g = pixelsTotal[thisone].g / (end-start) ;
+			pixelsTotal[thisone].b= pixelsTotal[thisone].b / (end-start);
+		}
+	}
+	savebmp("scene.bmp",width,height,dpi,pixelsTotal); 
+	//cout << pixels[200].r<<endl;
+	//savebmp("scene.bmp",width,height,dpi,pixels); 
+
+>>>>>>> master
 	delete pixels;// tempRed,tempBlue,tempGreen;
 	t2 = clock();
 	float diff = ((float)t2 - (float)t1)/1000;
